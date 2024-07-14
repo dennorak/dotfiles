@@ -11,11 +11,6 @@
   
   // Styles on classes (see eww.yuck for more information)
   
-  .sidestuff slider {
-    all: unset;
-    color: #ffd5cd;
-  }
-  
   .metric scale trough highlight {
     all: unset;
     background-color: #D35D6E;
@@ -52,4 +47,9 @@
     // background-color: #00ff00;
     padding: 2px;
     font-size: larger;
+  }
+
+  .tray {
+    all: unset;
+    padding: 4px;
   }

@@ -13,19 +13,52 @@
   (box :orientation "h"
     :class "metric"
     :space-evenly false
-    (box :class "label" label)
     (box
       :orientation "h"					
       :space-evenly false
-      (revealer	:transition "slideleft"				
+      (revealer	:transition "slideright"				
         :reveal show
         :duration "250ms"
-        (scale :min 0
-          :max 101
-          :active {onchange != ""}
-          :value value
-          :onchange onchange
-)))))
+        ; (scale :min 0
+        ;   :max 101
+        ;   :active {onchange != ""}
+        ;   :value value
+        ;   :onchange onchange
+
+        (overlay
+          (circular-progress
+            :value value
+            :start-at 0
+            :thickness 10
+          )
+          (circular-progress
+            :value 100
+            :start-at 100
+            :thickness 8
+            :class "inner-circle"
+          )
+        )
+))
+(box :class "label" label)
+))
+
+
+(defwidget net []
+  (box :class "net" :vexpand "false" :hexpand "false" 
+          (circular-progress
+              :value {volume == 0 ? 100 : volume}
+              :class "netbar"
+              :style "color: ${volume > 66 ? "yellow" : volume > 33 ? "cyan" : volume > 0 ? "purple" : "red"};"
+              :thickness 4
+          (button 
+              :limit-width 2
+              :tooltip "  ${volume}%"
+              :show_truncated false
+              :onclick ""
+              :wrap false
+              ""))
+            
+          ))
 
 ;;; Main Widgets
 
@@ -50,7 +83,7 @@
           (revealer	:transition "crossfade"				
 				    :reveal expand_center
 				    :duration "250ms"
-            "🗔 ${window}"
+            " ${window}"
           )
 
           (eventbox
@@ -70,15 +103,20 @@
   (box
     :space-evenly false
     :halign "end"
+    :class "tray"
 
-    (eventbox
-      :onhover "eww update show_disk=true"	
-      :onhoverlost "eww update show_disk=false" 
-      (metric :label "💾"
-        :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
-      :onchange "" :show show_disk)
-    )
-    date
+    (systray :icon-size 20)
+
+    ; (net)
+    ; (eventbox
+    ;   :onhover "eww update show_disk=true"	
+    ;   :onhoverlost "eww update show_disk=false" 
+    ;   :orientation "v"
+    ;   (metric :label ""
+    ;     :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
+    ;   :onchange "" :show show_disk)
+    ; )
+    (label :text date)
 ))
 (defvar show_disk false)
 
