@@ -60,6 +60,16 @@
             
           ))
 
+(defwidget bat []
+  (box :class "bat"
+    (button
+      :style "color: ${EWW_BATTERY["BAT1"].status == "Charging" ? "green" : EWW_BATTERY["BAT1"].capacity > 75 ? "cyan" : EWW_BATTERY["BAT1"].capacity > 50 ? "yellow" : EWW_BATTERY["BAT1"].capacity > 25 ? "orange" : EWW_BATTERY["BAT1"].capacity > 15 ? "red" : "red"}"
+      :tooltip "  ${EWW_BATTERY["BAT1"].capacity}%"
+      :onclick ""
+      "${EWW_BATTERY["BAT1"].status == "Charging" ? "" : EWW_BATTERY["BAT1"].capacity > 75 ? "" : EWW_BATTERY["BAT1"].capacity > 50 ? "" : EWW_BATTERY["BAT1"].capacity > 25 ? "" : EWW_BATTERY["BAT1"].capacity > 15 ? "" : ""}"
+    )
+))
+
 ;;; Main Widgets
 
 (defwidget workspaces []
@@ -104,10 +114,12 @@
     :space-evenly false
     :halign "end"
     :class "tray"
+    :spacing 15
 
     (systray :icon-size 20)
 
     ; (net)
+    (bat)
     ; (eventbox
     ;   :onhover "eww update show_disk=true"	
     ;   :onhoverlost "eww update show_disk=false" 
