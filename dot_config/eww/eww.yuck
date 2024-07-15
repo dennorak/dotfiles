@@ -2,7 +2,7 @@
 (deflisten workspaces :initial  "[]"   "bash ~/.config/eww/scripts/get-workspaces")
 (deflisten current_ws :initial  "1"    "bash ~/.config/eww/scripts/get-active-workspace")
 (deflisten window     :initial  "..."  "sh ~/.config/eww/scripts/get-window-title")
-(deflisten music      :initial  ""     "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
+(deflisten music      :initial  ""     "playerctl --follow metadata --format '{{ title }} - {{ artist }}' || true")
 (deflisten batt_id    :initial  "BAT0" "ls /sys/class/power_supply | grep BAT")
 (defpoll   volume     :interval "1s"   "sh ~/.config/eww/scripts/getvol")
 (defpoll   time       :interval "1s"   "date '+%H:%M:%S'")
@@ -141,7 +141,10 @@
 	        (revealer	:transition "crossfade"				
 				    :reveal expand_center			 
 				    :duration "550ms"
-            "🎵 ${music}"
+            (label
+              :text "🎵 ${music}"
+              :limit-width 30
+            )
 ))))
 (defvar expand_center false)
 
