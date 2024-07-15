@@ -1,11 +1,12 @@
 ;;; Watchers
-(deflisten workspaces :initial  "[]"  "bash ~/.config/eww/scripts/get-workspaces")
-(deflisten current_ws :initial  "1"   "bash ~/.config/eww/scripts/get-active-workspace")
-(deflisten window     :initial  "..." "sh ~/.config/eww/scripts/get-window-title")
-(deflisten music      :initial  ""    "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
-(defpoll   volume     :interval "1s"  "sh ~/.config/eww/scripts/getvol")
-(defpoll   time       :interval "1s"  "date '+%H:%M:%S'")
-(defpoll   date       :interval "1s"  "date '+%b %d, %Y'")
+(deflisten workspaces :initial  "[]"   "bash ~/.config/eww/scripts/get-workspaces")
+(deflisten current_ws :initial  "1"    "bash ~/.config/eww/scripts/get-active-workspace")
+(deflisten window     :initial  "..."  "sh ~/.config/eww/scripts/get-window-title")
+(deflisten music      :initial  ""     "playerctl --follow metadata --format '{{ artist }} - {{ title }}' || true")
+(deflisten batt_id    :initial  "BAT0" "ls /sys/class/power_supply | grep BAT")
+(defpoll   volume     :interval "1s"   "sh ~/.config/eww/scripts/getvol")
+(defpoll   time       :interval "1s"   "date '+%H:%M:%S'")
+(defpoll   date       :interval "1s"   "date '+%b %d, %Y'")
 
 ;;; Sub Widgets
 
@@ -63,12 +64,44 @@
 (defwidget bat []
   (box :class "bat"
     (button
-      :style "color: ${EWW_BATTERY["BAT1"].status == "Charging" ? "green" : EWW_BATTERY["BAT1"].capacity > 75 ? "cyan" : EWW_BATTERY["BAT1"].capacity > 50 ? "yellow" : EWW_BATTERY["BAT1"].capacity > 25 ? "orange" : EWW_BATTERY["BAT1"].capacity > 15 ? "red" : "red"}"
-      :tooltip "  ${EWW_BATTERY["BAT1"].capacity}%"
+      :style "color: ${EWW_BATTERY[batt_id].status == "Charging" ? "green" : EWW_BATTERY[batt_id].capacity > 75 ? "cyan" : EWW_BATTERY[batt_id].capacity > 50 ? "yellow" : EWW_BATTERY[batt_id].capacity > 25 ? "orange" : EWW_BATTERY[batt_id].capacity > 15 ? "red" : "red"}"
+      :tooltip "${EWW_BATTERY[batt_id].capacity}% (${EWW_BATTERY[batt_id].status})"
       :onclick ""
-      "${EWW_BATTERY["BAT1"].status == "Charging" ? "" : EWW_BATTERY["BAT1"].capacity > 75 ? "" : EWW_BATTERY["BAT1"].capacity > 50 ? "" : EWW_BATTERY["BAT1"].capacity > 25 ? "" : EWW_BATTERY["BAT1"].capacity > 15 ? "" : ""}"
+      "${EWW_BATTERY[batt_id].capacity > 75 ? "" : EWW_BATTERY[batt_id].capacity > 50 ? "" : EWW_BATTERY[batt_id].capacity > 25 ? "" : EWW_BATTERY[batt_id].capacity > 15 ? "" : ""}"
     )
 ))
+
+(defwidget vol[]
+  (box :orientation "h"
+    :class "vol"
+    :space-evenly false
+      (eventbox
+      :onhover "eww update show_vol=true"	
+      :onhoverlost "eww update show_vol=false" 
+      :orientation "v"
+      (box
+        :orientation "h"					
+        :space-evenly false
+        (revealer	:transition "slideleft"				
+          :reveal show_vol
+          :duration "250ms"
+          (box :class "metric"
+          (scale :min 0
+            :max 101
+            :active true
+            :value volume
+            :onchange "pactl set-sink-volume @DEFAULT_SINK@ {}%"
+          ))
+        )
+        (button
+          :onclick "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+          :tooltip "Toggle Mute"
+          :style "color: ${volume == 0 ? "red" : "white"};"
+          "${volume > 66 ? "󰕾 " : volume > 33 ? "󰖀 " : volume > 0 ? "󰕿 " : "󰝟 "}"
+        )
+      )
+)))
+(defvar show_vol false)
 
 ;;; Main Widgets
 
@@ -119,6 +152,7 @@
     (systray :icon-size 20)
 
     ; (net)
+    (vol)
     (bat)
     ; (eventbox
     ;   :onhover "eww update show_disk=true"	
