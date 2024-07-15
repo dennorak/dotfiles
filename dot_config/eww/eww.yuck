@@ -7,6 +7,7 @@
 (defpoll   volume     :interval "1s"   "sh ~/.config/eww/scripts/getvol")
 (defpoll   time       :interval "1s"   "date '+%H:%M:%S'")
 (defpoll   date       :interval "1s"   "date '+%b %d, %Y'")
+(defpoll   network    :interval "2s"   "sh ~/.config/eww/scripts/get-network")
 
 ;;; Sub Widgets
 
@@ -47,24 +48,25 @@
 (defwidget net []
   (box :class "net" :vexpand "false" :hexpand "false" 
           (circular-progress
-              :value {volume == 0 ? 100 : volume}
+              :value "${network.strength}"
               :class "netbar"
-              :style "color: ${volume > 66 ? "yellow" : volume > 33 ? "cyan" : volume > 0 ? "purple" : "red"};"
+              :style "color: ${network.strength > 66 ? "cyan" : network.strength > 33 ? "yellow" : network.strength > 0 ? "purple" : "red"};"
               :thickness 4
           (button 
               :limit-width 2
-              :tooltip "  ${volume}%"
+              :tooltip "${network.connected ? "${network.address} - ${network.name} (${network.strength}%)" : "No Network"}"
               :show_truncated false
               :onclick ""
               :wrap false
-              ""))
+              :style "color: black"
+              " "))
             
           ))
 
 (defwidget bat []
   (box :class "bat"
     (button
-      :style "color: ${EWW_BATTERY[batt_id].status == "Charging" ? "green" : EWW_BATTERY[batt_id].capacity > 75 ? "cyan" : EWW_BATTERY[batt_id].capacity > 50 ? "yellow" : EWW_BATTERY[batt_id].capacity > 25 ? "orange" : EWW_BATTERY[batt_id].capacity > 15 ? "red" : "red"}"
+      :style "font-size: larger; color: ${EWW_BATTERY[batt_id].status == "Charging" ? "green" : EWW_BATTERY[batt_id].capacity > 75 ? "white" : EWW_BATTERY[batt_id].capacity > 50 ? "yellow" : EWW_BATTERY[batt_id].capacity > 25 ? "orange" : EWW_BATTERY[batt_id].capacity > 15 ? "red" : "red"}"
       :tooltip "${EWW_BATTERY[batt_id].capacity}% (${EWW_BATTERY[batt_id].status})"
       :onclick ""
       "${EWW_BATTERY[batt_id].capacity > 75 ? " " : EWW_BATTERY[batt_id].capacity > 50 ? " " : EWW_BATTERY[batt_id].capacity > 25 ? " " : EWW_BATTERY[batt_id].capacity > 15 ? " " : " "}"
@@ -95,8 +97,8 @@
         )
         (button
           :onclick "pactl set-sink-mute @DEFAULT_SINK@ toggle"
-          :tooltip "Toggle Mute"
-          :style "color: ${volume == 0 ? "red" : "white"};"
+          :tooltip "${volume}%"
+          :style "font-size: larger; color: ${volume == 0 ? "red" : "white"};"
           "${volume > 66 ? "󰕾 " : volume > 33 ? "󰖀 " : volume > 0 ? "󰕿 " : "󰝟 "}"
         )
       )
@@ -153,8 +155,8 @@
 
     (systray :icon-size 20)
 
-    ; (net)
     (vol)
+    (net)
     (bat)
     (label :text date)
 ))
