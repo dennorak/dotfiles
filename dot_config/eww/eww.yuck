@@ -67,7 +67,7 @@
       :style "color: ${EWW_BATTERY[batt_id].status == "Charging" ? "green" : EWW_BATTERY[batt_id].capacity > 75 ? "cyan" : EWW_BATTERY[batt_id].capacity > 50 ? "yellow" : EWW_BATTERY[batt_id].capacity > 25 ? "orange" : EWW_BATTERY[batt_id].capacity > 15 ? "red" : "red"}"
       :tooltip "${EWW_BATTERY[batt_id].capacity}% (${EWW_BATTERY[batt_id].status})"
       :onclick ""
-      "${EWW_BATTERY[batt_id].capacity > 75 ? "" : EWW_BATTERY[batt_id].capacity > 50 ? "" : EWW_BATTERY[batt_id].capacity > 25 ? "" : EWW_BATTERY[batt_id].capacity > 15 ? "" : ""}"
+      "${EWW_BATTERY[batt_id].capacity > 75 ? " " : EWW_BATTERY[batt_id].capacity > 50 ? " " : EWW_BATTERY[batt_id].capacity > 25 ? " " : EWW_BATTERY[batt_id].capacity > 15 ? " " : " "}"
     )
 ))
 
@@ -111,7 +111,7 @@
     (for workspace in workspaces
       (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}"
         (box :class "workspace-entry"
-          (label :text "${workspace.id == current_ws ? "●" : workspace.windows > 0 ? "○" : "◌" }")
+          (label :text "${workspace.id == current_ws ? " " : workspace.windows > 0 ? " " : " " }")
 )))))
 
 (defwidget center []
@@ -156,14 +156,6 @@
     ; (net)
     (vol)
     (bat)
-    ; (eventbox
-    ;   :onhover "eww update show_disk=true"	
-    ;   :onhoverlost "eww update show_disk=false" 
-    ;   :orientation "v"
-    ;   (metric :label ""
-    ;     :value {round((1 - (EWW_DISK["/"].free / EWW_DISK["/"].total)) * 100, 0)}
-    ;   :onchange "" :show show_disk)
-    ; )
     (label :text date)
 ))
 (defvar show_disk false)
