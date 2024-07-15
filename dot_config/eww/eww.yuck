@@ -126,8 +126,10 @@
           (revealer	:transition "crossfade"				
 				    :reveal expand_center
 				    :duration "250ms"
-            " ${window}"
-          )
+            (label
+              :text " ${window}"
+              :limit-width 30
+          ))
 
           (eventbox
             :onhover "eww update expand_center=true"	
