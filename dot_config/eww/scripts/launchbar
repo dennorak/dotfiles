@@ -1,0 +1,99 @@
+#!/usr/bin/env bash
+input="$@"
+
+# if empty, clear the search result
+if [[ -z $input ]]; then
+    eww update search-res-name=""
+    exit 0
+fi
+
+launch() {
+    # get search-res-path: <path>
+    item=$(eww state | grep search-res-path | cut -d' ' -f2)
+
+    # Check if the file exists
+    if [[ ! -f "$item" ]]; then
+        eww update search-res-name="file not found: $item"
+        exit 1
+    fi
+
+    # Extract the base name of the .desktop file (i.e., the application name)
+    app_name=$(basename "$item" .desktop)
+
+    # Use gtk-launch to launch the application by its base name (without the .desktop extension)
+    gtk-launch "$app_name" &
+
+    # Clear the content of the file
+    eww update search-res-name="" search-res-path="" launch-val=""
+
+    # Close the launcher
+    bash ~/.config/eww/scripts/toggle_center 0
+    exit 0
+}
+
+search() {
+    # get directories to search for .desktop files
+    desktop_directories=(
+        "/usr/share/applications"        # System-wide applications
+        "~/.local/share/applications"    # User-specific applications
+        "/usr/local/share/applications"  # Local installations
+        "/opt"                           # Optional, some apps are installed here
+    )
+
+    # build a list of all .desktop files from the specified directories
+    desktop_files=()
+
+    for dir in "${desktop_directories[@]}"; do
+        # expand the tilde to the user's home directory
+        dir=$(eval echo "$dir")
+
+        # check if the directory exists
+        if [[ -d $dir ]]; then
+            # append all .desktop files to the list
+            desktop_files+=("$dir"/*.desktop)
+        fi
+    done
+
+    # fuzzy search for the input in the .desktop Name and Exec fields, to print the result
+    for file in "${desktop_files[@]}"; do
+        # get the Name and Exec fields from the .desktop file
+        name=$(grep -m 1 -oP "(?<=Name=).*" "$file" 2>/dev/null)
+        exec=$(grep -m 1 -oP "(?<=Exec=).*" "$file" 2>/dev/null)
+
+        # if name not in input and exec not in input (grep, case insensitive), skip
+        if ! (echo "$name" | grep -i "$input" &>/dev/null) && ! (echo "$exec" | grep -i "$input" &>/dev/null); then
+            continue
+        fi
+
+        # print the name and exec to the output file
+        eww update search-res-name="$name" search-res-path="$file"
+        exit 0
+    done
+
+    # if no match was found, print an error message
+    eww update search-res-name="No match found"
+    exit 1
+}
+
+calculate() {
+    # Check for qalc
+    if ! command -v qalc &> /dev/null; then
+        eww update search-res-name="qalc not found"
+        exit 1
+    fi
+
+    # Calculate the equation
+    eww update search-res-name="$(qalc "${input:1}")"
+    exit 0
+}
+
+    
+
+# Check if command starts with "=" (for equation calculations)
+if [[ $1 == "launch" ]]; then
+    launch
+elif [[ $input == "="* ]]; then
+    calculate
+else
+    search
+fi

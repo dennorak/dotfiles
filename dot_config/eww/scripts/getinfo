@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+function clamp {
+	min=$1
+	max=$2
+	val=$3
+	python -c "print(max($min, min($val, $max)))"
+}
+
+get_active() {
+    hyprctl monitors -j | jq '.[] | select(.focused) | .activeWorkspace.id'
+
+    socat -u UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock - |
+        stdbuf -o0 awk -F '>>|,' -e '/^workspace>>/ {print $2}' -e '/^focusedmon>>/ {print $3}'   
+}
+
+spaces (){
+	WORKSPACE_WINDOWS=$(hyprctl workspaces -j | jq 'map({key: .id | tostring, value: .windows}) | from_entries')
+	seq 1 10 | jq --argjson windows "${WORKSPACE_WINDOWS}" --slurp -Mc 'map(tostring) | map({id: ., windows: ($windows[.]//0)})'
+}
+
+get_all() {
+    spaces
+    socat -u UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock - | while read -r line; do
+	    spaces
+    done
+}
+
+# check first argument
+case $1 in
+    active-workspace)
+        get_active
+        ;;
+    all-workspaces)
+        get_all
+        ;;
+    *)
+        echo "Invalid argument"
+        exit 1
+        ;;
+esac

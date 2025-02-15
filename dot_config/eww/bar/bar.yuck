@@ -17,10 +17,10 @@
 
 (defwidget bar []
   (centerbox :orientation "h"
-  (workspaces)
-  (center)
-  (tray)
-))
+    (workspaces)
+    (center)
+    (tray)
+  ))
 
 ;;; left side of bar
 
@@ -31,7 +31,7 @@
       (eventbox :onclick "hyprctl dispatch workspace ${workspace.id}"
         (box :class "workspace-entry"
           (label :text "${workspace.id == current_ws ? " " : workspace.windows > 0 ? " " : " " }")
-)))))
+        )))))
 
 ;;; right side of bar
 
@@ -41,14 +41,14 @@
     :halign "end"
     :class "tray"
     :spacing 15
-
+    
     (systray :icon-size 20 :spacing 15)
-
+    
     (vol) ;;; from metrics
     (net) ;;; from metrics
     (bat) ;;; from metrics
     (label :text "${time_mo_s} ${time_day}, ${time_yr}")
-))
+  ))
 
 ;;; center of bar (multi-widget)
 
@@ -57,15 +57,15 @@
     :orientation "h"
     :space-evenly true
     :halign "center"
-      (stack
-        :selected center_selected
-        :transition center_dir
-        :same-size true
-
-        (clock_hud)
-        (powermenu)
-        (search_bar)	      
-)))
+    (stack
+      :selected center_selected
+      :transition center_dir
+      :same-size true
+      
+      (clock_hud)
+      (powermenu)
+      (search_bar)
+    )))
 
 ;;; center bar options
 
@@ -110,33 +110,33 @@
       :onclick "hyprctl dispatch exec hyprlock && eww update center_selected=0"
       (label :text "" :class "power-menu-icon")
     )
-))
+  ))
 
 (defwidget search_bar [] (box
-  :class "searchbox"
-  :orientation "h"
-  (input
-    :value launch-val
-    :active true
-    :onchange "bash ~/.config/eww/scripts/search {}"
-    :onaccept "bash ~/.config/eww/scripts/launch"
-  )
-  (label :text search-res-name)
-  (label :text search-res-path :visible false)
-))
+    :class "searchbox"
+    :orientation "h"
+    (input
+      :value launch-val
+      :active true
+      :onchange "bash ~/.config/eww/scripts/launchbar {}"
+      :onaccept "bash ~/.config/eww/scripts/launchbar launch"
+    )
+    (label :text search-res-name)
+    (label :text search-res-path :visible false)
+  ))
 
 (defwidget clock_hud [] (centerbox
     :class "center-inner"
     :orientation "h"
     (label
-        :text " ${window}"
-        :limit-width 30
+      :text " ${window}"
+      :limit-width 30
     )
     (label
       :text "${time_hr}:${time_min}:${time_sec}"
     )
     (label
-      :text "🎵 ${music}"
+      :text "🎵 ${song_name} - ${song_artist}"
       :limit-width 30
     )
-))
+  ))

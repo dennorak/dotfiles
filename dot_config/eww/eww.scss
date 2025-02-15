@@ -135,3 +135,49 @@
   font-size: 18px;
   margin: 0px 0px 5px 0px;
 }
+
+
+.song {
+  font-size: 24px;
+font-weight : bold;
+  color: #bfc9db;
+margin : 10px 0px 0px 15px;
+}
+.song_artist {
+  font-size: 18px;
+font-weight : bold;
+  color: #bfc9db;
+margin : 0px 0px 0px 15px;
+}
+
+
+.song_btn_prev, .song_btn_next, .song_btn_loop {
+  font-size: 30px;
+  font-weight: normal;
+  color: #bfc9db;
+margin : 4px 20px 0px 20px;
+}
+.song_btn_play {
+  font-weight: normal;
+  font-size: 34px;
+  color: #bfc9db;
+margin : 4px 20px 0px 20px;
+}
+
+.song_prog scale trough highlight {
+	all: unset;
+    background-color: #bfc9db;
+	border-radius: 8px;
+}
+.song_prog scale trough {
+	all: unset;
+	background-color: #232232;
+	border-radius: 8px;
+	min-height: 5px;
+	min-width: 220px;
+	margin : 15px;
+}
+.music_prog_bg {
+    background-color: #13141c;
+    border-radius: 8px;
+}
