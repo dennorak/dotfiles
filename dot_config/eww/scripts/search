@@ -6,7 +6,7 @@ touch "$output_file"
 input="$@"  # The input from the user
 
 if [[ -z $input ]]; then
-    echo '' > "$output_file"
+    eww update search-res-name=""
     exit 0
 fi
 
@@ -14,12 +14,12 @@ fi
 if [[ $input == "="* ]]; then
     # Check for qalc
     if ! command -v qalc &> /dev/null; then
-        echo "qalc not found"
+        eww update search-res-name="qalc not found"
         exit 1
     fi
 
     # Calculate the equation
-    qalc "${input:1}" > "$output_file"
+    eww update search-res-name="$(qalc "${input:1}")"
     exit 0
 fi
 
@@ -57,6 +57,10 @@ for file in "${desktop_files[@]}"; do
     fi
 
     # print the name and exec to the output file
-    echo -e "$name\n$file" > "$output_file"
-    break
+    eww update search-res-name="$name" search-res-path="$file"
+    return 0
 done
+
+# if no match was found, print an error message
+eww update search-res-name="No match found"
+exit 1

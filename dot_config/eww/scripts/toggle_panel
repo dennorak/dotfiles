@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if [[ $(eww active-windows) == *"panel"* ]]; then
+    eww close panel
+else
+    eww open panel
+fi

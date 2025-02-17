@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 
-# Define the path to the item file
-item_file="$(realpath ~/.config/eww/scripts)/launcher_output.txt"
-
-# Get the second line (which should contain the path to the .desktop file)
-item=$(sed -n '2p' "$item_file")
+# get search-res-path: <path>
+item=$(eww state | grep search-res-path | cut -d' ' -f2)
 
 # Check if the file exists
 if [[ ! -f "$item" ]]; then
-    echo "Error: .desktop file not found"
+    eww update search-res-name="file not found: $item"
     exit 1
 fi
 
@@ -19,10 +16,7 @@ app_name=$(basename "$item" .desktop)
 gtk-launch "$app_name" &
 
 # Clear the content of the file
-echo '' > "$item_file"
+eww update search-res-name="" search-res-path="" launch-val=""
 
 # Close the launcher
-eww close launcher
-
-# Open the bar again
-eww open bar
+bash ~/.config/eww/scripts/toggle_center 2

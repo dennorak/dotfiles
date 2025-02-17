@@ -1,0 +1,18 @@
+(defwindow panel
+  :monitor 0
+  :geometry (geometry
+    :x "0%"
+    :y "0%"
+    :width "20%"
+    :height "90%"
+    :anchor "center left"
+  )
+  :exclusive false
+  :namespace "dnrk-eww"
+  :focusable "onDemand"
+  (panel)
+)
+
+(defwidget panel [] (box
+    (label :text "hello world")
+))
