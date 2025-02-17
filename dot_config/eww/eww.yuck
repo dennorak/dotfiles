@@ -125,11 +125,12 @@
     :onclick "eww close bar && eww open launcher"
       (stack
         :selected center_selected
-        :transition "crossfade"
+        :transition center_dir
+        :same-size true
 	      (centerbox :class "center-inner"
           :orientation "h"
           (label
-            :text ". ${window}"
+            :text " ${window}"
             :limit-width 30
           )
           (label
@@ -179,6 +180,7 @@
         )
 )))
 (defvar center_selected 0)
+(defvar center_dir "slidedown")
 
 (defwidget launcher []
 (eventbox :class "center"

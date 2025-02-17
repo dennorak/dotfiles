@@ -1,6 +1,7 @@
 // reset all css
 * {
   all: unset;
+  font-family: 'Source Code Pro';
 }
 
 /****************************************
@@ -24,6 +25,11 @@
 // border radius (2)
 .tray, .center {
   border-bottom-left-radius: 10px;
+}
+
+// pad window name
+.center-inner > *:nth-child(1) {
+  padding-left: 10px;
 }
 
 // add padding to center of center (clock)
