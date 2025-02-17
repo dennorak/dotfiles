@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+# Define the path to the item file
+item_file="$(realpath ~/.config/eww/scripts)/launcher_output.txt"
+
+# Get the second line (which should contain the path to the .desktop file)
+item=$(sed -n '2p' "$item_file")
+
+# Check if the file exists
+if [[ ! -f "$item" ]]; then
+    echo "Error: .desktop file not found"
+    exit 1
+fi
+
+# Extract the base name of the .desktop file (i.e., the application name)
+app_name=$(basename "$item" .desktop)
+
+# Use gtk-launch to launch the application by its base name (without the .desktop extension)
+gtk-launch "$app_name" &
+
+# Clear the content of the file
+echo '' > "$item_file"
+
+# Close the launcher
+eww close launcher
+
+# Open the bar again
+eww open bar

@@ -32,9 +32,9 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-
 export PATH=$PATH:~/.cargo/bin
 export PATH="~/.bun/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 export GTK_THEME=Adwaita:dark
 
 if [[ -n $SSH_CONNECTION ]]; then

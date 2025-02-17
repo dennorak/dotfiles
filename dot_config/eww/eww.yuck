@@ -8,6 +8,7 @@
 (defpoll   time       :interval "1s"   "date '+%H:%M:%S'")
 (defpoll   date       :interval "1s"   "date '+%b %d, %Y'")
 (defpoll   network    :interval "2s"   "sh ~/.config/eww/scripts/get-network")
+(defpoll search_listen :interval "1s" "cat ~/.config/eww/scripts/launcher_output.txt")
 
 ;;; Sub Widgets
 
@@ -50,7 +51,7 @@
           (circular-progress
               :value "${network.strength}"
               :class "netbar"
-              :style "color: ${network.strength > 66 ? "cyan" : network.strength > 33 ? "yellow" : network.strength > 0 ? "purple" : "red"};"
+              :style "color: ${network.strength > 66 ? "lime" : network.strength > 33 ? "yellow" : network.strength > 0 ? "purple" : "red"};"
               :thickness 4
           (button 
               :limit-width 2
@@ -58,7 +59,7 @@
               :show_truncated false
               :onclick ""
               :wrap false
-              :style "color: black"
+              :style "color: transparent"
               " "))
             
           ))
@@ -117,37 +118,85 @@
 )))))
 
 (defwidget center []
-  (box :class "center"
+  (eventbox :class "center"
     :orientation "h"
     :space-evenly true
     :halign "center"
-	      (box
-          :orientation "h"					
-				  :space-evenly true
-
-          (revealer	:transition "crossfade"				
-				    :reveal expand_center
-				    :duration "250ms"
-            (label
-              :text " ${window}"
-              :limit-width 30
-          ))
-
-          (eventbox
-            :onhover "eww update expand_center=true"	
-            :onhoverlost "eww update expand_center=false" 
-          "${time}"
+    :onclick "eww close bar && eww open launcher"
+      (stack
+        :selected center_selected
+        :transition "crossfade"
+	      (centerbox :class "center-inner"
+          :orientation "h"
+          (label
+            :text ". ${window}"
+            :limit-width 30
           )
-	        (revealer	:transition "crossfade"				
-				    :reveal expand_center			 
-				    :duration "550ms"
-            (label
-              :text "🎵 ${music}"
-              :limit-width 30
-            )
-))))
-(defvar expand_center false)
+          (label
+            :text "${time}"
+          )
+          (label
+            :text "🎵 ${music}"
+            :limit-width 30
+          )
+        )
+        ;;; power menu
+        (box
+          :class "power-menu"
+          :orientation "h"
+          :space-evenly true
+          :halign "center"
+          ;;; shutdown
+          (button
+            :onclick "hyprctl dispatch powermenu"
+            (label :text "" :class "power-menu-icon")
+          )
+          ;;; reboot
+          (button
+            :onclick "hyprctl dispatch reboot"
+            (label :text "" :class "power-menu-icon")
+          )
+          ;;; hibernate
+          (button
+            :onclick "hyprctl dispatch hibernate"
+            (label :text "" :class "power-menu-icon")
+          )
+          ;;; suspend
+          (button
+            :onclick "hyprctl dispatch suspend"
+            (label :text "" :class "power-menu-icon")
+          )
+          ;;; logout
+          (button
+            :onclick "hyprctl dispatch logout"
+            (label :text "" :class "power-menu-icon")
+          )
+          ;;; lock
+          (button
+            :onclick "hyprlock"
+            (label :text "" :class "power-menu-icon")
+          )
+        )
+)))
+(defvar center_selected 0)
 
+(defwidget launcher []
+(eventbox :class "center"
+    :orientation "h"
+    :space-evenly true
+    :halign "center"
+    :onclick "eww close launcher && eww open bar && echo '' > ~/.config/eww/scripts/launcher_output.txt"
+    (box
+      :class "searchbox"
+      :orientation "h"
+      (input
+        :value launch-val
+        :onchange "bash ~/.config/eww/scripts/search {}"
+        :onaccept "bash ~/.config/eww/scripts/launch"
+      )
+      (label :text search_listen)
+)))
+(defvar launch-val "")
 
 (defwidget tray []
   (box
@@ -175,18 +224,40 @@
   (tray)
 ))
 
+(defwidget launch-bar []
+  (centerbox :orientation "h"
+  (workspaces)
+  (launcher)
+  (tray)
+))
+
 ;;; Window
 
 (defwindow bar
   :monitor 0
-  :windowtype "dock"
   :geometry (geometry
     :x "0%"
     :y "0%"
-    :width "90%"
+    :width "100%"
     :height "1%"
     :anchor "top center"
   )
   :exclusive true
+  :namespace "dnrk-eww"
   (bar)
+)
+
+(defwindow launcher
+  :monitor 0
+  :geometry (geometry
+    :x "0%"
+    :y "0%"
+    :width "100%"
+    :height "1%"
+    :anchor "top center"
+  )
+  :exclusive true
+  :namespace "dnrk-eww"
+  :focusable true
+  (launch-bar)
 )
