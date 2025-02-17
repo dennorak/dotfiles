@@ -5,8 +5,15 @@
 (deflisten music      :initial  ""     "playerctl --follow metadata --format '{{ title }} - {{ artist }}' || true")
 (deflisten batt_id    :initial  "BAT0" "ls /sys/class/power_supply | grep BAT")
 (defpoll   volume     :interval "1s"   "sh ~/.config/eww/scripts/getvol")
-(defpoll   time       :interval "1s"   "date '+%H:%M:%S'")
-(defpoll   date       :interval "1s"   "date '+%b %d, %Y'")
+(defpoll   time_hr     :interval "10s"   "date '+%H'")
+(defpoll   time_min     :interval "10s"   "date '+%M'")
+(defpoll   time_sec     :interval "1s"    "date '+%S'")
+(defpoll   time_yr       :interval "1s"   "date '+%Y'")
+(defpoll   time_mo       :interval "1s"   "date '+%m'")
+(defpoll   time_mo_s       :interval "1s"   "date '+%b'")
+(defpoll   time_mo_s2       :interval "1s"   "date '+%B'")
+(defpoll   time_day       :interval "1s"   "date '+%d'")
+(defpoll   time_day_s       :interval "1s"   "date '+%A'")
 (defpoll   network    :interval "2s"   "sh ~/.config/eww/scripts/get-network")
 
 ;;; bar/

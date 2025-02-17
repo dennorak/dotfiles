@@ -47,7 +47,7 @@
     (vol) ;;; from metrics
     (net) ;;; from metrics
     (bat) ;;; from metrics
-    (label :text date)
+    (label :text "${time_mo_s} ${time_day}, ${time_yr}")
 ))
 
 ;;; center of bar (multi-widget)
@@ -133,7 +133,7 @@
         :limit-width 30
     )
     (label
-      :text "${time}"
+      :text "${time_hr}:${time_min}:${time_sec}"
     )
     (label
       :text "🎵 ${music}"
