@@ -159,22 +159,22 @@
           )
           ;;; hibernate
           (button
-            :onclick "hyprctl dispatch hibernate"
+            :onclick "hyprctl dispatch hibernate && eww update center_selected=0"
             (label :text "" :class "power-menu-icon")
           )
           ;;; suspend
           (button
-            :onclick "hyprctl dispatch suspend"
+            :onclick "hyprctl dispatch suspend && eww update center_selected=0"
             (label :text "" :class "power-menu-icon")
           )
           ;;; logout
           (button
-            :onclick "hyprctl dispatch logout"
+            :onclick "hyprctl dispatch logout && eww update center_selected=0"
             (label :text "" :class "power-menu-icon")
           )
           ;;; lock
           (button
-            :onclick "hyprlock"
+            :onclick "hyprctl dispatch exec hyprlock && eww update center_selected=0"
             (label :text "" :class "power-menu-icon")
           )
         )
