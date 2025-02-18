@@ -35,6 +35,10 @@ $color-primary: #863ad7;
   border-bottom-left-radius: 10px;
 }
 
+.workspace-entry {
+  margin-right: 10px;
+}
+
 // pad window name
 .center-inner>*:nth-child(1) {
   padding-left: 10px;

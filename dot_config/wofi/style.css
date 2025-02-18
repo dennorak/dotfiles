@@ -1,0 +1,7 @@
+window, #input {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+#entry:selected {
+    background-color: #4d1cb7;
+}
