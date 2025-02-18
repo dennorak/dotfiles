@@ -73,9 +73,7 @@
     :class "power-menu"
     :orientation "h"
     :space-evenly true
-    ; :halign "center"
-    :hexpand true
-    
+
     ;;; shutdown
     (button
       :onclick "hyprctl dispatch powermenu"
@@ -126,18 +124,11 @@
     (label :text search-res-path :visible false)
   ))
 
-(defwidget clock_hud [] (centerbox
-    :class "center-inner"
-    :orientation "h"
-    (label
-      :text " ${window}"
-      :limit-width 30
-    )
+(defwidget clock_hud []
+  (box
+    :hexpand false
     (label
       :text "${time_hr}:${time_min}:${time_sec}"
     )
-    (label
-      :text "🎵 ${song_name} - ${song_artist}"
-      :limit-width 30
-    )
-  ))
+  )
+)

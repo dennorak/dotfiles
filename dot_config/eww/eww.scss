@@ -36,18 +36,7 @@ $color-primary: #863ad7;
 }
 
 .workspace-entry {
-  margin-right: 10px;
-}
-
-// pad window name
-.center-inner>*:nth-child(1) {
-  padding-left: 10px;
-}
-
-// add padding to center of center (clock)
-.center-inner>*:nth-child(2) {
-  padding-left: 20px;
-  padding-right: 20px;
+  margin-left: 5px;
 }
 
 // metric config (for volume)
