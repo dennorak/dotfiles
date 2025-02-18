@@ -1,12 +1,74 @@
 #!/usr/bin/env bash
+wifiInterfaceName=wlan0
 
-function clamp {
+####################################
+# helper functions
+#
+
+# use python to clamp a value between a min and max
+clamp () {
 	min=$1
 	max=$2
 	val=$3
 	python -c "print(max($min, min($val, $max)))"
 }
 
+# get all workspaces
+spaces (){
+	WORKSPACE_WINDOWS=$(hyprctl workspaces -j | jq 'map({key: .id | tostring, value: .windows}) | from_entries')
+	seq 1 10 | jq --argjson windows "${WORKSPACE_WINDOWS}" --slurp -Mc 'map(tostring) | map({id: ., windows: ($windows[.]//0)})'
+}
+
+rssi_to_percentage() {
+  local rssi="$1"
+  local min_rssi=-90  # Adjust minimum RSSI value as needed
+  local max_rssi=-50  # Adjust maximum RSSI value as needed
+
+  # Clamp RSSI value to the specified range
+  rssi=$(echo "$rssi" | awk -F'.' '{print $1}')  # Remove decimal part
+  rssi=$((rssi < min_rssi ? min_rssi : rssi))
+  rssi=$((rssi > max_rssi ? max_rssi : rssi))
+
+  # Calculate percentage using linear mapping
+  percentage=$((100 * (rssi - min_rssi) / (max_rssi - min_rssi)))
+
+  echo "$percentage"
+}
+
+# get network stats
+getStats () {
+    station=$1
+    echo "$(iwctl station "$station" show | sed -ne '/Scanning/,$ p')"
+}
+
+# get field from stats
+getField () {
+    input=$1
+    fieldName=$2
+    echo "$(grep -i "$fieldName" <<< "$input" | head -n 1 | awk '{ print $NF }')"
+}
+
+# get field from stats
+getFieldRSSI () {
+    input=$1
+    fieldName=$2
+    echo "$(grep -i "$fieldName" <<< "$input" | head -n 1 | awk '{ print $2 }')"
+}
+
+# format network stats
+formatNetworkJSON () {
+    local connected=$1
+    local name=$2
+    local address=$3
+    local strength=$4
+    echo "{\"connected\":${connected},\"name\":\"${name}\",\"address\":\"${address}\",\"strength\":\"${strength}\"}"
+}
+
+####################################
+# action functions
+#
+
+# get active monitors
 get_active() {
     hyprctl monitors -j | jq '.[] | select(.focused) | .activeWorkspace.id'
 
@@ -14,17 +76,102 @@ get_active() {
         stdbuf -o0 awk -F '>>|,' -e '/^workspace>>/ {print $2}' -e '/^focusedmon>>/ {print $3}'   
 }
 
-spaces (){
-	WORKSPACE_WINDOWS=$(hyprctl workspaces -j | jq 'map({key: .id | tostring, value: .windows}) | from_entries')
-	seq 1 10 | jq --argjson windows "${WORKSPACE_WINDOWS}" --slurp -Mc 'map(tostring) | map({id: ., windows: ($windows[.]//0)})'
-}
-
-get_all() {
+# get all workspaces
+get_all_ws() {
     spaces
     socat -u UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock - | while read -r line; do
 	    spaces
     done
 }
+
+# get the activve window title
+window_title() {
+    hyprctl activewindow -j | jq --raw-output .title
+    socat -u UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock - | stdbuf -o0 awk -F '>>|,' '/^activewindow>>/{print $3}'
+}
+
+# get the current volume
+volume() {
+    if [ $(pactl get-sink-mute @DEFAULT_SINK@ | grep -oP 'Mute:\s*\K\w+') == "yes" ]; then
+        echo 0
+        exit
+    else
+        volume_output=$(pactl get-sink-volume @DEFAULT_SINK@  | grep -oP '\d+%' | head -n1)
+        echo ${volume_output%%%}
+        exit
+    fi
+}
+
+# get the network stats
+getNetworkStatsJSON () {
+    local lines=$(getStats "$wifiInterfaceName")
+    local connected=$(getField "$lines" "state")
+    local network="none"
+    local address="none"
+    if test "$connected" == "connected"; then
+        local connected=true
+        local network=$(getField "$lines" "connected network")
+        local address=$(getField "$lines" "ipv4 address")
+        local rssi=$(getFieldRSSI "$lines" "averagerssi")
+        local strength=$(rssi_to_percentage "$rssi")
+    else
+        local connected=false
+    fi
+    formatNetworkJSON "$connected" "$network" "$address" "$strength"
+}
+
+# get the media status
+getMediaStatus() {
+    case $(playerctl status) in
+        Playing)
+            echo ""
+            ;;
+        Paused)
+            echo ""
+            ;;
+        Stopped)
+            echo ""
+            ;;
+        *)
+            echo ""
+            ;;
+    esac
+}
+
+# get media loop status
+getMediaLoop() {
+    case $(playerctl loop) in
+        Playlist)
+            # repeat icon
+            echo "󰑖"
+            ;;
+        Track)
+            echo "󰑘"
+            ;;
+        *)
+            echo "󰑗"
+            ;;
+    esac
+}
+
+# get media shuffle status
+getMediaShuffle() {
+    case $(playerctl shuffle) in
+        On)
+            echo ""
+            ;;
+        Off)
+            echo "󰒞"
+            ;;
+        *)
+            echo "󰒞"
+            ;;
+    esac
+}
+
+####################################
+# main
+#
 
 # check first argument
 case $1 in
@@ -32,7 +179,25 @@ case $1 in
         get_active
         ;;
     all-workspaces)
-        get_all
+        get_all_ws
+        ;;
+    window-title)
+        window_title
+        ;;
+    vol)
+        volume
+        ;;
+    netstat)
+        getNetworkStatsJSON
+        ;;
+    media-status)
+        getMediaStatus
+        ;;
+    media-loop)
+        getMediaLoop
+        ;;
+    media-shuffle)
+        getMediaShuffle
         ;;
     *)
         echo "Invalid argument"

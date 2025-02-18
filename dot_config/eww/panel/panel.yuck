@@ -15,91 +15,71 @@
 
 (defwidget panel [] (box
     :orientation "v"
+    :space-evenly false
     (time)
-    (music)
-    (music_ctl)
-    (music_prog)
+    (box
+      (music)
+      (music_ctl)
+      ; (music_prog)
+    )
   ))
 
 
 (defwidget time []
   (box
     :orientation "v"
+    :space-evenly false
+    :class "panel-datetime"
+    (centerbox
+      :orientation "h"
+      :hexpand true
+      (label :class "sz-large wgt-heavy"   :text time_hr)
+      (label :class "sz-large wgt-med" :text time_min)
+      (label :class "sz-large wgt-light" :text time_sec)
+    )
+    (centerbox
+      :orientation "h"
+      :hexpand true
+      (label :class "sz-med wgt-light"  :text time_yr)
+      (label :class "sz-med wgt-med" :text time_mo)
+      (label :class "sz-med wgt-heavy"   :text time_day)
+    )
+    (centerbox
+      :orientation "h"
+      :hexpand true
+      (label :text "")
+      (label :class "sz-small wgt-light" :text time_mo_long)
+      (label :class "sz-small wgt-light" :text time_day_week)
+    )
+  ))
+
+(defwidget music []
+  (box
+    :orientation "v"
     :space-evenly "false"
     :vexpand "false"
     :hexpand "false"
-    :spacing 0
-    (box
-      :orientation "h"
-      :space-evenly "false"
-      :vexpand "false"
-      :halign "start"
-      :hexpand "false"
-      :spacing 0
-      (label :class "hour_class"
-        :valign "start"
-        :halign "start"
-        :wrap "true"
-        :limit-width 25
-      :text time_hr)
-      (label :class "minute_class"
-        :valign "start"
-        :halign "start"
-        :wrap "true"
-        :limit-width 25
-      :text time_min)
-      (label :class "second_class"
-        :valign "start"
-        :halign "start"
-        :wrap "true"
-      :text time_sec)
-    )
-    (box :orientation "h"
-      :spacing 0
-      :space-evenly "false"
-      :halign "start"
-      :vexpand "false" :hexpand "false"
-      (label :class "year_class"
-        :valign "start"
-      :text time_yr)
-      (label :class "month_class"
-        :valign "start"
-      :text time_mo)
-      (label :class "day_class"
-        :valign "start"
-      :text time_day)
-    )
-    (box :orientation "h"
-      :spacing 0
-      :space-evenly "false"
-      :halign "start"
-      :vexpand "false" :hexpand "false"
-      (label :class "day_class_n"
-        :valign "start"
-      :text time_day_s)
-      (label :class "time_sep_class"
-        :valign "start"
-      :text ", ")
-      (label :class "month_class_n"
-        :valign "start"
-      :text time_mo_s2)
-    )))
-
-(defwidget music []
-  (box :orientation "v" :space-evenly "false" :vexpand "false" :hexpand "false"
-    (box :orientation "v" :spacing 5 :space-evenly "false" :vexpand "false" :hexpand "false" :class "msc_bg"
-      (label :halign "start" :class "song" :wrap "false" :limit-width 12 :text song_name)
-      (label :halign "start" :class "song_artist" :wrap "true" :limit-width 15 :text song_artist))))
+    (label :halign "start" :class "sz-large wgt-heavy" :wrap "false" :text song_name)
+    (label :halign "start" :class "sz-med   wgt-med"   :wrap "true"  :text song_artist)
+  ))
 
 (defwidget music_ctl []
-  (box :orientation "v" :spacing 1 :halign "center" :space-evenly "false" :vexpand "false" :hexpand "false" :class "msc_ctl_bg"
-    (button :class "song_btn_prev" :onclick "playerctl previous" "")
-    (button :class "song_btn_play" :onclick "playerctl play-pause" song_status)
-    (button :class "song_btn_next" :onclick "playerctl next" "")
-    ; (button :class "song_btn_loop" :onclick "~/.config/eww/scripts/music_info --loop" loop_status)
+  (box
+    :orientation "v"
+    :spacing 1
+    :halign "center"
+    :space-evenly false
+    :vexpand false
+    :hexpand false
+    (button :class "song_btn" :onclick "playerctl previous" "")
+    (button :class "song_btn" :onclick "playerctl play-pause" song_status)
+    (button :class "song_btn" :onclick "playerctl next" "")
+    (button :class "song_btn" :onclick "playerctl shuffle toggle" song_shuffle)
+    (button :class "song_btn" :onclick "" song_loop)
   ))
 
 
 (defwidget music_prog []
   (box :orientation "v" :spacing 5 :space-evenly "false" :vexpand "false" :hexpand "false" :class "music_prog_bg"
-    (scale :value song_time :halign "start" :class "song_prog")))
+    (scale :value song_time :halign "start" :class "song_prog" :min 0 :max song_length :step 1)
+  ))

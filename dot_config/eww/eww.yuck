@@ -1,23 +1,31 @@
 ;;; Watchers
+
+; date / time
+(defpoll   time_hr        :interval "10s" "date '+%H'")
+(defpoll   time_min       :interval "10s" "date '+%M'")
+(defpoll   time_sec       :interval "1s"  "date '+%S'")
+(defpoll   time_yr        :interval "1s"  "date '+%Y'")
+(defpoll   time_mo        :interval "1s"  "date '+%m'")
+(defpoll   time_mo_long   :interval "1s"  "date '+%B'")
+(defpoll   time_mo_short  :interval "1s"  "date '+%b'")
+(defpoll   time_day       :interval "1s"  "date '+%d'")
+(defpoll   time_day_week  :interval "1s"  "date '+%A'")
+; workspace / window
 (deflisten workspaces :initial  "[]"   "bash ~/.config/eww/scripts/getinfo all-workspaces")
 (deflisten current_ws :initial  "1"    "bash ~/.config/eww/scripts/getinfo active-workspace")
-(deflisten window     :initial  "..."  "sh ~/.config/eww/scripts/get-window-title")
+(deflisten window     :initial  "..."  "bash ~/.config/eww/scripts/getinfo window-title")
+; media info
 (deflisten song_name      :initial  ""     "playerctl --follow metadata --format '{{ title }}' || true")
-(deflisten song_artist      :initial  ""     "playerctl --follow metadata --format '{{ artist }}' || true")
+(deflisten song_artist    :initial  ""     "playerctl --follow metadata --format '{{ artist }}' || true")
 (deflisten song_time      :initial  ""     "playerctl --follow metadata --format '{{ position }}' || true")
-(deflisten song_status      :initial  ""     "playerctl status || true")
+(deflisten song_length    :initial  ""     "playerctl --follow metadata --format '{{ duration }}' || true")
+(defpoll   song_status    :interval "1s"   "bash ~/.config/eww/scripts/getinfo media-status")
+(defpoll   song_loop      :interval "1s"   "bash ~/.config/eww/scripts/getinfo media-loop")
+(defpoll   song_shuffle   :interval "1s"   "bash ~/.config/eww/scripts/getinfo media-shuffle")
+; misc.
 (deflisten batt_id    :initial  "BAT0" "ls /sys/class/power_supply | grep BAT")
-(defpoll   volume     :interval "1s"   "sh ~/.config/eww/scripts/getvol")
-(defpoll   time_hr     :interval "10s"   "date '+%H'")
-(defpoll   time_min     :interval "10s"   "date '+%M'")
-(defpoll   time_sec     :interval "1s"    "date '+%S'")
-(defpoll   time_yr       :interval "1s"   "date '+%Y'")
-(defpoll   time_mo       :interval "1s"   "date '+%m'")
-(defpoll   time_mo_s       :interval "1s"   "date '+%b'")
-(defpoll   time_mo_s2       :interval "1s"   "date '+%B'")
-(defpoll   time_day       :interval "1s"   "date '+%d'")
-(defpoll   time_day_s       :interval "1s"   "date '+%A'")
-(defpoll   network    :interval "2s"   "sh ~/.config/eww/scripts/get-network")
+(defpoll   volume     :interval "1s"   "bash ~/.config/eww/scripts/getinfo vol")
+(defpoll   network    :interval "2s"   "bash ~/.config/eww/scripts/getinfo netstat")
 
 ;;; bar/
 (include "./bar/bar.yuck")

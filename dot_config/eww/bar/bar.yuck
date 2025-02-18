@@ -47,7 +47,7 @@
     (vol) ;;; from metrics
     (net) ;;; from metrics
     (bat) ;;; from metrics
-    (label :text "${time_mo_s} ${time_day}, ${time_yr}")
+    (label :text "${time_mo_short} ${time_day}, ${time_yr}")
   ))
 
 ;;; center of bar (multi-widget)

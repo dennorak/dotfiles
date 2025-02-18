@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+
+toggle_bar_center() {
+    # first arg is index
+    index=$1
+
+    state=$(eww state | grep center_selected | cut -d' ' -f2)
+
+    # if state == index, set state to 0
+    if [ "$state" == "$index" ]; then
+        eww update "center_dir=slidedown"
+        eww update "center_selected=0"
+    else
+        eww update "center_dir=slideup"
+        eww update "center_selected=$index"
+    fi
+}
+
+toggle_panel() {
+    if [[ $(eww active-windows) == *"panel"* ]]; then
+        eww close panel
+    else
+        eww open panel
+    fi
+}
+
+case $1 in
+    bar)
+        toggle_bar_center $2
+        ;;
+    panel)
+        toggle_panel
+        ;;
+    *)
+        echo "Invalid argument"
+        ;;
+esac
