@@ -1,0 +1,91 @@
+{
+    "output": {
+        "bass_enhancer#0": {
+            "amount": 7.0,
+            "blend": 0.0,
+            "bypass": false,
+            "floor": 20.0,
+            "floor-active": false,
+            "harmonics": 8.5,
+            "input-gain": 0.0,
+            "output-gain": 0.0,
+            "scope": 100.0
+        },
+        "bass_loudness#0": {
+            "bypass": false,
+            "input-gain": 0.0,
+            "link": -9.1,
+            "loudness": -2.5,
+            "output": -6.0,
+            "output-gain": 0.0
+        },
+        "blocklist": [],
+        "exciter#0": {
+            "amount": 2.600000000000001,
+            "blend": 0.0,
+            "bypass": false,
+            "ceil": 16000.0,
+            "ceil-active": false,
+            "harmonics": 8.5,
+            "input-gain": 0.0,
+            "output-gain": 0.0,
+            "scope": 7500.0
+        },
+        "pitch#0": {
+            "anti-alias": false,
+            "bypass": true,
+            "input-gain": 0.0,
+            "output-gain": 0.0,
+            "overlap-length": 8,
+            "quick-seek": false,
+            "rate-difference": 0.0,
+            "seek-window": 15,
+            "semitones": -3.0,
+            "sequence-length": 40,
+            "tempo-difference": 0.0
+        },
+        "plugins_order": [
+            "pitch#0",
+            "bass_loudness#0",
+            "bass_enhancer#0",
+            "exciter#0",
+            "reverb#0",
+            "stereo_tools#0"
+        ],
+        "reverb#0": {
+            "amount": -12.0,
+            "bass-cut": 300.0,
+            "bypass": false,
+            "decay-time": 1.5,
+            "diffusion": 0.5,
+            "dry": 0.0,
+            "hf-damp": 5000.0,
+            "input-gain": 0.0,
+            "output-gain": 0.0,
+            "predelay": 0.0,
+            "room-size": "Medium",
+            "treble-cut": 5000.0
+        },
+        "stereo_tools#0": {
+            "balance-in": 0.0,
+            "balance-out": 0.0,
+            "bypass": false,
+            "delay": 0.0,
+            "input-gain": 0.0,
+            "middle-level": 0.0,
+            "middle-panorama": 0.0,
+            "mode": "LR > LR (Stereo Default)",
+            "mutel": false,
+            "muter": false,
+            "output-gain": 0.0,
+            "phasel": false,
+            "phaser": false,
+            "sc-level": 1.0,
+            "side-balance": 0.0,
+            "side-level": 0.0,
+            "softclip": false,
+            "stereo-base": 0.0,
+            "stereo-phase": 0.0
+        }
+    }
+}
