@@ -1,5 +1,10 @@
 {{- $releaseId := "0" -}}
-{{- $releaseId = mozillaInstallHash "/usr/lib/" + {{ if hasKey . "browser" }}{{.browser | quote}}{{ else }} "firefox-developer-edition" {{ end }} -}}
+
+{{- if hasKey . "browser" }}
+  {{- $releaseId = mozillaInstallHash "/usr/lib/" .browser -}}
+{{- else }}
+  {{- $releaseId = mozillaInstallHash "/usr/lib/firefox-developer-edition" -}}
+{{- end }}
 
 [Install{{- $releaseId -}}]
 Default=primary

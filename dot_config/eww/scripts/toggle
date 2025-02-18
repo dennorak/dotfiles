@@ -16,14 +16,6 @@ toggle_bar_center() {
     fi
 }
 
-toggle_panel() {
-    if [[ $(eww active-windows) == *"panel"* ]]; then
-        eww close panel
-    else
-        eww open panel
-    fi
-}
-
 toggle_media_loop() {
     case $(playerctl loop) in
         "None")
@@ -41,9 +33,6 @@ toggle_media_loop() {
 case $1 in
     bar)
         toggle_bar_center $2
-        ;;
-    panel)
-        toggle_panel
         ;;
     media-loop)
         toggle_media_loop
