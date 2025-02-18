@@ -4,8 +4,8 @@
   font-family: 'Cousine Nerd Font';
 }
 
-$color-accent: #d9316e;
-$color-primary: #863ad7;
+$color-accent:  {{ if hasKey . "accent" }}{{ .active3 }}{{ else }} #d9316e {{ end }};
+$color-primary: {{ if hasKey . "primary" }}{{ .active2 }}{{ else }} #863ad7 {{ end }};
 
 /****************************************
 *  Bar config

@@ -4,15 +4,15 @@
 #
 
 $mainMod = SUPER
-$terminal = kitty
-$browser = firefox-developer-edition
+$terminal = {{ if hasKey . "terminal" }}{{ .terminal | quote }}{{ else }}"kitty"{{ end }} 
+$browser = {{ if hasKey . "browser" }}{{ .browser | quote }}{{ else }}"firefox-developer-edition"{{ end }}
 
-$active1 = rgba(00abffff)
-$active2 = rgba(dc38ffff)
-$active3 = rgba(ff3434ff)
+$active1 = {{  if hasKey . "active1" }}{{ .active1 }}{{ else }} rgba(00abffff) {{ end }}
+$active2 = {{  if hasKey . "active2" }}{{ .active2 }}{{ else }} rgba(dc38ffff) {{ end }}
+$active3 = {{  if hasKey . "active3" }}{{ .active3 }}{{ else }} rgba(ff3434ff) {{ end }}
 
-$inactive1 = rgba(777777aa)
-$inactive2 = rgba(000000aa)
+$inactive1 = {{  if hasKey . "inactive1" }}{{ .inactive1 }}{{ else }} rgba(777777aa) {{ end }}
+$inactive2 = {{  if hasKey . "inactive2" }}{{ .inactive2 }}{{ else }} rgba(000000aa) {{ end }}
 
 ###############################3
 # configuration

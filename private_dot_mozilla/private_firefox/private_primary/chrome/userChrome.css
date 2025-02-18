@@ -1,0 +1,52 @@
+:root {	
+	--bg: #0007;
+	--focus-bg: #000a;
+	--color: #7c00ff;
+}
+
+/* base element */
+#main-window {
+	background-color: var(--bg) !important;
+}
+
+/* top bar (around search/url bar) */
+#nav-bar, 
+/* top bar (tab bar) */
+#navigator-toolbox,
+/* bookmarks bar */
+#PersonalToolbar,
+/* tab itself */
+.tabbrowser-tab .tab-background,
+/* sidebar (new) */
+.browserSidebarContainer
+{
+	background: transparent !important;
+}
+
+/* url input / search bar */
+#urlbar-background {
+	background: transparent !important;
+	border-radius: 10px;
+}
+#urlbar:is([focused], [open]) > #urlbar-background {
+	background: var(--bg) !important;
+	filter: blur(10px);
+}
+
+/* context menu */
+.menupopup-arrowscrollbox {
+    background: var(--focus-bg) !important;
+	color: var(--color) !important;
+}
+
+/* active tab */
+.tab-background:is([selected]) {
+	background: var(--color) !important;
+}
+
+/* browser (to round corner) */
+.browserContainer, browser, #browser, #tabbrowser-tabbox, .browserStack, #tabbrowser-tabpanels {
+	background-color: transparent !important;
+	border-top-left-radius: 10px;
+	outline: none !important;
+}

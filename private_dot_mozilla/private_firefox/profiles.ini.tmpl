@@ -1,0 +1,16 @@
+{{- $releaseId := "0" -}}
+{{- $releaseId = mozillaInstallHash "/usr/lib/" + {{ if hasKey . "browser" }}{{.browser | quote}}{{ else }} "firefox-developer-edition" {{ end }} -}}
+
+[Install{{- $releaseId -}}]
+Default=primary
+Locked=1
+
+[Profile0]
+Name=primary
+IsRelative=1
+Path=primary
+
+[General]
+StartWithLastProfile=1
+Version=2
+

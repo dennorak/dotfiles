@@ -1,0 +1,2 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- .chezmoi.stdin | replaceAllRegex "user_pref\\(\"toolkit.legacyUserProfileCustomizations.stylesheets\", false\\);" "user_pref(\"toolkit.legacyUserProfileCustomizations.stylesheets\", true);" }}

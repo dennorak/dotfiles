@@ -1,0 +1,15 @@
+html {
+    background-color: transparent !important;
+}
+
+.sticky-inner-container, .sticky-container {
+    background-color: transparent !important;
+}
+
+
+/* browser (to round corner) */
+.browserContainer, browser, #browser, #tabbrowser-tabbox, .browserStack, #tabbrowser-tabpanels {
+	background-color: transparent !important;
+	border-top-left-radius: 10px;
+	outline: none !important;
+}
