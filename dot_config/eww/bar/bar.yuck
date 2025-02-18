@@ -57,6 +57,7 @@
     :orientation "h"
     :space-evenly true
     :halign "center"
+    :onclick "eww open --toggle panel"
     (stack
       :selected center_selected
       :transition center_dir
