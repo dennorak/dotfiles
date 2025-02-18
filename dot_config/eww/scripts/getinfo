@@ -124,10 +124,10 @@ getNetworkStatsJSON () {
 getMediaStatus() {
     case $(playerctl status) in
         Playing)
-            echo ""
+            echo ""
             ;;
         Paused)
-            echo ""
+            echo ""
             ;;
         Stopped)
             echo ""
