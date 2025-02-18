@@ -24,12 +24,29 @@ toggle_panel() {
     fi
 }
 
+toggle_media_loop() {
+    case $(playerctl loop) in
+        "None")
+            playerctl loop playlist
+            ;;
+        "Playlist")
+            playerctl loop track
+            ;;
+        "Track")
+            playerctl loop none
+            ;;
+    esac
+}
+
 case $1 in
     bar)
         toggle_bar_center $2
         ;;
     panel)
         toggle_panel
+        ;;
+    media-loop)
+        toggle_media_loop
         ;;
     *)
         echo "Invalid argument"

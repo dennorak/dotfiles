@@ -17,11 +17,7 @@
     :orientation "v"
     :space-evenly false
     (time)
-    (box
-      (music)
-      (music_ctl)
-      ; (music_prog)
-    )
+    (music)
   ))
 
 
@@ -33,16 +29,16 @@
     (centerbox
       :orientation "h"
       :hexpand true
-      (label :class "sz-large wgt-heavy"   :text time_hr)
-      (label :class "sz-large wgt-med" :text time_min)
+      (label :class "sz-large wgt-heavy" :text time_hr)
+      (label :class "sz-large wgt-med"   :text time_min)
       (label :class "sz-large wgt-light" :text time_sec)
     )
     (centerbox
       :orientation "h"
       :hexpand true
-      (label :class "sz-med wgt-light"  :text time_yr)
-      (label :class "sz-med wgt-med" :text time_mo)
-      (label :class "sz-med wgt-heavy"   :text time_day)
+      (label :class "sz-med wgt-light" :text time_yr)
+      (label :class "sz-med wgt-med"   :text time_mo)
+      (label :class "sz-med wgt-heavy" :text time_day)
     )
     (centerbox
       :orientation "h"
@@ -56,30 +52,32 @@
 (defwidget music []
   (box
     :orientation "v"
-    :space-evenly "false"
-    :vexpand "false"
-    :hexpand "false"
-    (label :halign "start" :class "sz-large wgt-heavy" :wrap "false" :text song_name)
-    (label :halign "start" :class "sz-med   wgt-med"   :wrap "true"  :text song_artist)
+    :class "panel-music"
+    :space-evenly true
+    (label :halign "start" :class "sz-small wgt-light" :limit-width 40 :text song_album)
+    (label :halign "start" :class "sz-large wgt-heavy" :limit-width 40 :text song_name)
+    (label :halign "start" :class "sz-med   wgt-med"   :limit-width 40 :text song_artist)
+    (music_ctl)
+    (box :class "metric"
+      (scale
+        :value song_time
+        :class "song_prog"
+        :hexpand true
+        :max song_length
+        :step 1
+        :onchange "playerctl position $(({} / 1000000))"
+      ))
   ))
 
 (defwidget music_ctl []
   (box
-    :orientation "v"
-    :spacing 1
+    :orientation "h"
     :halign "center"
-    :space-evenly false
-    :vexpand false
-    :hexpand false
+    :space-evenly true
+    :hexpand true
     (button :class "song_btn" :onclick "playerctl previous" "")
     (button :class "song_btn" :onclick "playerctl play-pause" song_status)
     (button :class "song_btn" :onclick "playerctl next" "")
     (button :class "song_btn" :onclick "playerctl shuffle toggle" song_shuffle)
-    (button :class "song_btn" :onclick "" song_loop)
-  ))
-
-
-(defwidget music_prog []
-  (box :orientation "v" :spacing 5 :space-evenly "false" :vexpand "false" :hexpand "false" :class "music_prog_bg"
-    (scale :value song_time :halign "start" :class "song_prog" :min 0 :max song_length :step 1)
+    (button :class "song_btn" :onclick "bash ~/.config/eww/scripts/toggle media-loop" song_loop)
   ))

@@ -16,9 +16,10 @@
 (deflisten window     :initial  "..."  "bash ~/.config/eww/scripts/getinfo window-title")
 ; media info
 (deflisten song_name      :initial  ""     "playerctl --follow metadata --format '{{ title }}' || true")
+(deflisten song_album     :initial  ""     "playerctl --follow metadata --format '{{ album }}' || true")
 (deflisten song_artist    :initial  ""     "playerctl --follow metadata --format '{{ artist }}' || true")
 (deflisten song_time      :initial  ""     "playerctl --follow metadata --format '{{ position }}' || true")
-(deflisten song_length    :initial  ""     "playerctl --follow metadata --format '{{ duration }}' || true")
+(deflisten song_length    :initial  ""     "playerctl --follow metadata --format '{{ mpris:length }}' || true")
 (defpoll   song_status    :interval "1s"   "bash ~/.config/eww/scripts/getinfo media-status")
 (defpoll   song_loop      :interval "1s"   "bash ~/.config/eww/scripts/getinfo media-loop")
 (defpoll   song_shuffle   :interval "1s"   "bash ~/.config/eww/scripts/getinfo media-shuffle")

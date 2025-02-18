@@ -4,6 +4,9 @@
   font-family: 'Cousine Nerd Font';
 }
 
+$color-accent: #d9316e;
+$color-primary: #863ad7;
+
 /****************************************
 *  Bar config
 */
@@ -45,7 +48,7 @@
 
 // metric config (for volume)
 .metric scale trough highlight {
-  background-color: #D35D6E;
+  background-color: $color-accent;
   border-radius: 10px;
 }
 
@@ -73,7 +76,7 @@
   padding-right: 10px;
 
   & :hover>.power-menu-icon {
-    color: #D35D6E;
+    color: $color-accent;
   }
 }
 
@@ -94,8 +97,15 @@
 }
 
 .panel-datetime {
-  padding-top: 20px;
-  padding-bottom: 200px;
+  padding-top: 40px;
+  padding-bottom: 80px;
+}
+
+.panel-music {
+  margin-left:  10px;
+  padding-left: 10px;
+  border-radius: 15px;
+  background-color: rgb(0, 0, 0, 0.5);
 }
 
 .sz-large {
@@ -111,41 +121,21 @@
 }
 
 .wgt-heavy {
-  color: #bec8da;
+  color: $color-primary;
   font-weight: bold;
 }
 
 .wgt-med {
-  color: #bec8da;
+  color: lighten($color-primary, 20%);
 }
 
 .wgt-light {
-  color: #767c87;
+  color: lighten($color-primary, 40%);
 }
 
 .song_btn {
   font-size: 30px;
   font-weight: normal;
-  color: #bfc9db;
+  color: $color-primary;
   margin: 4px 20px 0px 20px;
-}
-
-.song_prog scale trough highlight {
-  all: unset;
-  background-color: #bfc9db;
-  border-radius: 8px;
-}
-
-.song_prog scale trough {
-  all: unset;
-  background-color: #232232;
-  border-radius: 8px;
-  min-height: 5px;
-  min-width: 220px;
-  margin: 15px;
-}
-
-.music_prog_bg {
-  background-color: #13141c;
-  border-radius: 8px;
 }
