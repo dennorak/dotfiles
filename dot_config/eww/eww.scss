@@ -98,22 +98,30 @@ $color-primary: #863ad7;
 
 .panel-datetime {
   padding-top: 40px;
-  padding-bottom: 80px;
+  margin-bottom: 80px;
 }
 
-.panel-music {
+.panel-music, .panel-vitals {
   margin-left:  10px;
   padding-left: 10px;
   border-radius: 15px;
+  margin-bottom: 80px;
+}
+
+.panel-music {
   background-color: rgb(0, 0, 0, 0.5);
 }
 
 .sz-large {
-  font-size: 42px;
+  font-size: 56px;
 }
 
 .sz-med {
-  font-size: 30px;
+  font-size: 42px;
+}
+
+.sz-smaller {
+  font-size: 24px;
 }
 
 .sz-small {
@@ -138,4 +146,15 @@ $color-primary: #863ad7;
   font-weight: normal;
   color: $color-primary;
   margin: 4px 20px 0px 20px;
+}
+
+.vital {
+  color: $color-accent;
+  margin-bottom: 40px;
+}
+
+.vital-container {
+  border-radius: 15px;
+  background-color: rgb(0, 0, 0, 0.5);
+  margin: 10px;
 }

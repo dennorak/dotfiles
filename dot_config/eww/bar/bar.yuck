@@ -73,7 +73,8 @@
     :class "power-menu"
     :orientation "h"
     :space-evenly true
-    :halign "center"
+    ; :halign "center"
+    :hexpand true
     
     ;;; shutdown
     (button

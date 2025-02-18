@@ -2,6 +2,7 @@
 
 ; date / time
 (defpoll   time_hr        :interval "10s" "date '+%H'")
+(defpoll   time_hr_12     :interval "10s" "date '+%l'")
 (defpoll   time_min       :interval "10s" "date '+%M'")
 (defpoll   time_sec       :interval "1s"  "date '+%S'")
 (defpoll   time_yr        :interval "1s"  "date '+%Y'")
@@ -10,6 +11,7 @@
 (defpoll   time_mo_short  :interval "1s"  "date '+%b'")
 (defpoll   time_day       :interval "1s"  "date '+%d'")
 (defpoll   time_day_week  :interval "1s"  "date '+%A'")
+(defpoll   time_meridian  :interval "1s"  "date '+%p'")
 ; workspace / window
 (deflisten workspaces :initial  "[]"   "bash ~/.config/eww/scripts/getinfo all-workspaces")
 (deflisten current_ws :initial  "1"    "bash ~/.config/eww/scripts/getinfo active-workspace")
