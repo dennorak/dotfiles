@@ -25,6 +25,7 @@
 (defpoll   song_status    :interval "1s"   "bash ~/.config/eww/scripts/getinfo media-status")
 (defpoll   song_loop      :interval "1s"   "bash ~/.config/eww/scripts/getinfo media-loop")
 (defpoll   song_shuffle   :interval "1s"   "bash ~/.config/eww/scripts/getinfo media-shuffle")
+(defpoll   song_cover     :interval "1s"   "bash ~/.config/eww/scripts/getinfo media-cover")
 ; misc.
 (deflisten batt_id    :initial  "BAT0" "ls /sys/class/power_supply | grep BAT")
 (defpoll   volume     :interval "1s"   "bash ~/.config/eww/scripts/getinfo vol")

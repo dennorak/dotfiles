@@ -113,7 +113,7 @@ $color-primary: #863ad7;
 }
 
 .sz-large {
-  font-size: 56px;
+  font-size: 72px;
 }
 
 .sz-med {
@@ -146,6 +146,10 @@ $color-primary: #863ad7;
   font-weight: normal;
   color: $color-primary;
   margin: 4px 20px 0px 20px;
+}
+
+.song_cover {
+  margin: 30px;
 }
 
 .vital {

@@ -19,7 +19,6 @@
     (time)
     (music)
     (sys_vitals)
-    (powermenu)
   ))
 
 
@@ -55,10 +54,23 @@
   (box
     :orientation "v"
     :class "panel-music"
-    :space-evenly true
-    (label :halign "start" :class "sz-small   wgt-light" :limit-width 40 :text song_album)
-    (label :halign "start" :class "sz-med     wgt-heavy" :limit-width 40 :text song_name)
-    (label :halign "start" :class "sz-smaller wgt-med"   :limit-width 40 :text song_artist)
+    :space-evenly false
+    (box
+      :space-evenly false
+      
+      (image
+        :path song_cover
+        :image-width 125
+        :class "song_cover"
+      )
+      
+      (box :orientation "v"
+        :space-evenly false
+        (label :halign "start" :class "sz-small   wgt-light" :limit-width 40 :text song_album)
+        (label :halign "start" :class "sz-med     wgt-heavy" :limit-width 40 :text song_name)
+        (label :halign "start" :class "sz-smaller wgt-med"   :limit-width 40 :text song_artist)
+      )
+    )
     (music_ctl)
     (box :class "metric"
       (scale

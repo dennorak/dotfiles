@@ -169,6 +169,23 @@ getMediaShuffle() {
     esac
 }
 
+# get media cover
+getMediaCover() {
+    url=$(playerctl metadata mpris:artUrl)
+    # check file / https
+    if [[ $url == file://* ]]; then
+        echo $url | sed 's/file:\/\///'
+    elif [[ $url == https://* ]]; then
+        # fetch file to ~/.config/eww/album.<ext>
+        ext=$(echo $url | sed 's/.*\.\(.*\)/\1/')
+        album=~/.config/eww/album
+        curl -s $url -o $album
+        echo $album
+    else
+        echo ""
+    fi
+}
+
 ####################################
 # main
 #
@@ -198,6 +215,9 @@ case $1 in
         ;;
     media-shuffle)
         getMediaShuffle
+        ;;
+    media-cover)
+        getMediaCover
         ;;
     *)
         echo "Invalid argument"
