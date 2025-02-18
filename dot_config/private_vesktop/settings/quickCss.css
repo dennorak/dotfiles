@@ -1,0 +1,11 @@
+:root, html, body, div {
+    --background-primary: #0004 !important;
+    --background-secondary: transparent !important;
+    --background-secondary-alt: transparent !important;
+    --background-tertiary: transparent !important;
+    --channeltextarea-background: #0007 !important;
+}
+
+.sidebar_c48ade {
+    background-color: #0007 !important;
+}
