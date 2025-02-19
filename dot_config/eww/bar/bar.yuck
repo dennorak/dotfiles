@@ -58,6 +58,7 @@
     :space-evenly true
     :halign "center"
     :onclick "eww open --toggle panel"
+    :onrightclick "bash ~/.config/eww/scripts/toggle bar 1"
     (stack
       :selected center_selected
       :transition center_dir
@@ -78,36 +79,42 @@
     ;;; shutdown
     (button
       :onclick "hyprctl dispatch powermenu"
+      :onrightclick "bash ~/.config/eww/scripts/toggle bar 1"
       (label :text "" :class "power-menu-icon")
     )
     
     ;;; reboot
     (button
       :onclick "hyprctl dispatch reboot"
+      :onrightclick "bash ~/.config/eww/scripts/toggle bar 1"
       (label :text "" :class "power-menu-icon")
     )
     
     ;;; hibernate
     (button
       :onclick "hyprctl dispatch hibernate && eww update center_selected=0"
+      :onrightclick "bash ~/.config/eww/scripts/toggle bar 1"
       (label :text "" :class "power-menu-icon")
     )
     
     ;;; suspend
     (button
       :onclick "hyprctl dispatch suspend && eww update center_selected=0"
+      :onrightclick "bash ~/.config/eww/scripts/toggle bar 1"
       (label :text "" :class "power-menu-icon")
     )
     
     ;;; logout
     (button
       :onclick "hyprctl dispatch exit && eww update center_selected=0"
+      :onrightclick "bash ~/.config/eww/scripts/toggle bar 1"
       (label :text "" :class "power-menu-icon")
     )
     
     ;;; lock
     (button
       :onclick "hyprctl dispatch exec hyprlock && eww update center_selected=0"
+      :onrightclick "bash ~/.config/eww/scripts/toggle bar 1"
       (label :text "" :class "power-menu-icon")
     )
   ))
