@@ -1,0 +1,61 @@
+@define-color bg-main rgba(0, 0, 0, 0.15);        /* Was 0.2 */
+@define-color bg-sidebar rgba(0, 0, 0, 0.4);      /* Was 0.6 */
+@define-color bg-view rgba(0, 0, 0, 0.5);         /* Was 0.7 */
+@define-color bg-toolbar rgba(0, 0, 0, 0.35);     /* Was 0.5 */
+@define-color bg-statusbar rgba(0, 0, 0, 0.35);   /* Was 0.5 */
+@define-color bg-entry rgba(255, 255, 255, 0.07); /* Was 0.1 */
+@define-color bg-hover rgba(255, 255, 255, 0.035);/* Was 0.05 */
+@define-color border-color rgba(255, 255, 255, 0.07); /* Was 0.1 */
+@define-color text-color white;
+
+* {
+    background: transparent;
+    color: @text-color;
+    font-weight: 500;
+}
+
+/* Main window */
+.nemo-window {
+    background-color: @bg-main;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+}
+
+/* Sidebar */
+.nemo-window .sidebar {
+    background-color: @bg-sidebar;
+    border-right: 1px solid @border-color;
+}
+
+/* Sidebar view + file list */
+.nemo-window .sidebar .view,
+.nemo-window .view {
+    background-color: @bg-view;
+}
+
+/* Top toolbar */
+.nemo-window .toolbar,
+.nemo-window .primary-toolbar {
+    background-color: @bg-toolbar;
+    border-bottom: 1px solid @border-color;
+}
+
+/* Status bar at bottom */
+.nemo-window .statusbar {
+    background-color: @bg-statusbar;
+    border-top: 1px solid @border-color;
+}
+
+/* Entry fields (like location bar) */
+.nemo-window entry {
+    background-color: @bg-entry;
+    color: @text-color;
+    border: 1px solid @border-color;
+    border-radius: 4px;
+}
+
+/* Hover highlight */
+.nemo-window .view:hover,
+.nemo-window .sidebar .view:hover {
+    background-color: @bg-hover;
+}
