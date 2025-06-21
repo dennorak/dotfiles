@@ -32,9 +32,8 @@ plugins=(git z zsh-autosuggestions zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
-export PATH=$PATH:~/.cargo/bin
-export PATH="~/.bun/bin:$PATH"
-export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$PATH:$HOME/.bun/bin"
+export PATH="$PATH:$HOME/.cargo/bin"
 export GTK_THEME=Adwaita:dark
 
 if [[ -n $SSH_CONNECTION ]]; then
