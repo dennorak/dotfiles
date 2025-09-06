@@ -5,7 +5,7 @@
 
 $mainMod = SUPER
 $terminal = {{ if hasKey . "terminal" }}{{ .terminal | quote }}{{ else }}"kitty"{{ end }} 
-$browser = {{ if hasKey . "browser" }}{{ .browser | quote }}{{ else }}"firefox-developer-edition"{{ end }}
+$browser = {{ if hasKey . "browser" }}{{ .browser | quote }}{{ else }}"zen-browser"{{ end }}
 
 $active1 = {{  if hasKey . "active1" }}{{ .active1 }}{{ else }} rgba(00abffff) {{ end }}
 $active2 = {{  if hasKey . "active2" }}{{ .active2 }}{{ else }} rgba(dc38ffff) {{ end }}
@@ -23,7 +23,8 @@ env = XCURSOR_SIZE,24
 env = GTK_THEME,Adwaita:dark
 
 # startup
-exec-once = eww daemon && eww open bar # widgets
+# exec-once = eww daemon && eww open bar # widgets
+exec-once = caelestia shell -d
 exec-once = swww-daemon --format xrgb # wallpaper
 exec-once = /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 # authentication agent
 
@@ -122,15 +123,21 @@ bind = $mainMod, RETURN, exec, $terminal
 # browser
 bind = ,XF86AudioMedia, exec, $browser
 # runner (wofi)
-bind = $mainMod, SPACE, exec, wofi --show drun --insensitive --style ~/.config/wofi/style.css --prompt ""
+# bind = $mainMod, SPACE, exec, wofi --show drun --insensitive --style ~/.config/wofi/style.css --prompt ""
+# runner (caelestia)
+bind = $mainMod, SPACE, global, caelestia:launcher
 
 ### eww shortcuts
 # runner (incomplete :( )
-bind = $mainMod SHIFT, SPACE, exec, bash ~/.config/eww/scripts/toggle bar 2
+# bind = $mainMod SHIFT, SPACE, exec, bash ~/.config/eww/scripts/toggle bar 2
 # power menu
-bind = $mainMod, M, exec, bash ~/.config/eww/scripts/toggle bar 1
+# bind = $mainMod, M, exec, bash ~/.config/eww/scripts/toggle bar 1
 # side panel
-bind = $mainMod, ESCAPE, exec, eww open --toggle panel
+# bind = $mainMod, ESCAPE, exec, eww open --toggle panel
+
+### caelestia shortcuts
+bind = $mainMod, M, global, caelestia:session
+bind = $mainMod, L, global, caelestia:lock
 
 
 ### workspaces
@@ -171,4 +178,5 @@ bindel = ,XF86MonBrightnessDown, exec, brightnessctl s 1%-
 
 ### misc.
 # lock screen on lid close
-bindl=,switch:Lid Switch,exec,hyprlock
+# bindl=,switch:Lid Switch,exec,hyprlock
+bindl=,switch:Lid Switch,global,caelestia:lock

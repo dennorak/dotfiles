@@ -78,14 +78,14 @@
 
     ;;; shutdown
     (button
-      :onclick "hyprctl dispatch powermenu"
+      :onclick "shutdown now"
       :onrightclick "bash ~/.config/eww/scripts/toggle bar 1"
       (label :text "" :class "power-menu-icon")
     )
     
     ;;; reboot
     (button
-      :onclick "hyprctl dispatch reboot"
+      :onclick "reboot"
       :onrightclick "bash ~/.config/eww/scripts/toggle bar 1"
       (label :text "" :class "power-menu-icon")
     )

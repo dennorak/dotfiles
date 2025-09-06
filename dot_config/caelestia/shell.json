@@ -1,0 +1,28 @@
+{
+    "appearance": {
+        "transparency": {
+            "enabled": true,
+            "base": 0.85,
+            "layers": 0.4
+        }
+    },
+    "general": {
+        "apps": {
+            "terminal": ["kitty"],
+            "audio": ["pactl"]
+        }
+    },
+    "services": {
+        "defaultPlayer": "feishin",
+        "useTwelveHourClock": false
+    },
+    "background": {
+        "enabled": false
+    },
+    "session": {
+        "commands": {
+            "logout": ["hyprctl", "dispatch", "exit"],
+            "hibernate": ["hyprctl", "dispatch", "suspend"]
+        }
+    }
+}
