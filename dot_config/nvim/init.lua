@@ -1,5 +1,3 @@
-
-
 -- globals
 vim.g.mapleader = " "
 
@@ -21,6 +19,7 @@ vim.keymap.set('n', '<leader>f', vim.lsp.buf.format)         -- format document
 vim.keymap.set('n', '<leader>e', ':Oil<CR>')                 -- Open explorer
 vim.keymap.set('n', '<leader>o', ':Pick files<CR>')          -- Open file picker
 vim.keymap.set('n', '<leader>h', ':Pick help<CR>')           -- Open help picker
+vim.keymap.set('n', '<leader>t', ':split | terminal<CR>')    -- open terminal
 
 -- vim.pack (pacman) installs
 vim.pack.add({
