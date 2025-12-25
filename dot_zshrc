@@ -36,6 +36,8 @@ export PATH="$PATH:$HOME/.bun/bin"
 export PATH="$PATH:$HOME/.cargo/bin"
 export PATH="$PATH:$HOME/.local/share/bob/nvim-bin"
 export GTK_THEME=Adwaita:dark
+export QT_QPA_PLATFORMTHEME=qt5ct:qt6ct
+export PKG_CONFIG_PATH="/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH"
 
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='nano'
